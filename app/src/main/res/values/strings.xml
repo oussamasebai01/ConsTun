@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">oussama_s_application1</string>
+    <string name="loading">Loading…</string>
+    <string name="no_internet_connection">No internet connection!</string>
+    <string name="msg_you_have_an_acc">You have an Account? Login</string>
+    <string name="lbl_home_page">Home Page</string>
+    <string name="msg_consulter_vos_c">Consulter vos constats</string>
+    <string name="lbl_register2"> Register</string>
+    <string name="lbl_new_here">New Here?</string>
+    <string name="msg_check_your_app">"Check your app's UI from the below demo screens of your app."</string>
+    <string name="lbl_get_started">Get Started</string>
+    <string name="msg_formuler_un_con">Formuler un constat</string>
+    <string name="lbl_password">Password</string>
+    <string name="lbl_constun">ConsTun</string>
+    <string name="msg_forgot_password">Forgot Password?</string>
+    <string name="msg_new_here_regis">New Here? Register</string>
+    <string name="lbl_home_page_one">Home Page One</string>
+    <string name="lbl_signup">SignUp</string>
+    <string name="lbl_login">Login</string>
+    <string name="lbl_loginone">loginOne</string>
+    <string name="lbl_register">Register</string>
+    <string name="lbl_username">Username</string>
+    <string name="lbl_phone_number">Phone Number</string>
+    <string name="lbl_finish">Finish</string>
+    <string name="lbl_app_navigation">App Navigation</string>
+    <string name="msg_you_have_an_acc2">You have an Account?</string>
+    <string name="mustNotBeEmpty">Must not be empty !</string>
+</resources>
