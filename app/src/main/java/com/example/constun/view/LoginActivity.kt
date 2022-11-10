@@ -46,11 +46,11 @@ class LoginActivity : AppCompatActivity() {
 
             doConnect()
 
-            if(doConnect())
-            {
-                val intent = Intent(this,HomeActivity::class.java)
-                startActivity(intent)
-            }
+//            if(doConnect())
+//            {
+//                val intent = Intent(this,HomeActivity::class.java)
+//                startActivity(intent)
+//            }
         }
 
         btnCreer = findViewById(R.id.Creer)
@@ -61,9 +61,9 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private  fun doConnect(): Boolean {
+    private  fun doConnect() {
 
-       var tmp = false
+
         if(validate())
         {
         val apiInterface = ApiInterface.create()
@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
         })
 
     }
-        return tmp
+        //return tmp
         }
 
 

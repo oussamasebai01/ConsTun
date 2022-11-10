@@ -26,4 +26,14 @@
     <string name="lbl_app_navigation">App Navigation</string>
     <string name="msg_you_have_an_acc2">You have an Account?</string>
     <string name="mustNotBeEmpty">Must not be empty !</string>
+    <string name="SignIn">SignIn</string>
+    <string name="SignUp">SignUp</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="numero">Numero</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="or">OR</string>
+    <string name="eMail">Email</string>
+    <string name="repeter_password">repeter password</string>
 </resources>

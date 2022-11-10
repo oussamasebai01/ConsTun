@@ -45,10 +45,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLayoutNum" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLayoutPassword2" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtLayoutUsername"
+        android:id="@+id/txtLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -63,10 +63,10 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtUsername"
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Login"
+            android:hint="@string/eMail"
             android:inputType="text" />
 
 
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLayoutUsername"
+        app:layout_constraintTop_toBottomOf="@+id/txtLayoutEmail"
         app:startIconDrawable="@drawable/ic_lock"
         app:startIconTint="@color/colorPrimary"
         tools:ignore="MissingConstraints">
@@ -101,11 +101,11 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtLayoutNum"
+        android:id="@+id/txtLayoutPassword2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:hint="Numero telephone"
+        android:hint="@string/repeter_password"
         android:layout_marginTop="33dp"
         android:layout_marginEnd="20dp"
         app:errorEnabled="true"
@@ -116,10 +116,10 @@
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtNum"
+            android:id="@+id/txtPassword2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="number"
+            android:inputType="textPassword"
             tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>

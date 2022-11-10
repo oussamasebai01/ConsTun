@@ -20,14 +20,14 @@ import tn.esprit.lolretrofit.utils.ApiInterface
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var txtUsername: TextInputEditText
-    lateinit var txtLayoutUsername: TextInputLayout
+    lateinit var txtEmail: TextInputEditText
+    lateinit var txtLayoutEmail: TextInputLayout
 
     lateinit var txtPassword: TextInputEditText
     lateinit var txtLayoutPassword: TextInputLayout
 
-    lateinit var txtNum: TextInputEditText
-    lateinit var txtLayoutNum: TextInputLayout
+    lateinit var txtPassword2: TextInputEditText
+    lateinit var txtLayoutPassword2: TextInputLayout
 
     lateinit var cbRememberMe: CheckBox
     lateinit var btnLogin: Button
@@ -39,14 +39,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        txtUsername =findViewById(R.id.txtUsername)
-        txtLayoutUsername = findViewById(R.id.txtLayoutUsername)
+        txtEmail =findViewById(R.id.txtEmail)
+        txtLayoutEmail = findViewById(R.id.txtLayoutEmail)
 
         txtPassword = findViewById(R.id.txtPassword)
         txtLayoutPassword = findViewById(R.id.txtLayoutPassword)
 
-        txtNum = findViewById(R.id.txtNum)
-        txtLayoutNum = findViewById(R.id.txtLayoutNum)
+        txtPassword2 = findViewById(R.id.txtPassword2)
+        txtLayoutPassword2 = findViewById(R.id.txtLayoutPassword2)
 
         cbRememberMe = findViewById(R.id.cbRememberMe)
         btnLogin = findViewById(R.id.btnLogin)
@@ -75,9 +75,8 @@ class MainActivity : AppCompatActivity() {
         val apiInterface = ApiInterface.create()
 
         apiInterface.inscrir(
-            txtUsername.text.toString(),
+            txtEmail.text.toString(),
             txtPassword.text.toString(),
-            txtNum.text.toString().toInt()
         ).enqueue(object : Callback<User> {
 
 
@@ -90,7 +89,6 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 val user = response.body()
-                val name = response.body()?.username
 
                 if (user!=null) {
                     Toast.makeText(this@MainActivity, "Registration Success", Toast.LENGTH_SHORT).show()
@@ -106,12 +104,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun validate(): Boolean {
-        txtLayoutUsername.error = null
+        txtLayoutEmail.error = null
         txtLayoutPassword.error = null
-        txtLayoutNum.error = null
+        txtLayoutPassword2.error = null
 
-        if (txtUsername.text!!.isEmpty()){
-            txtLayoutUsername.error = getString(R.string.mustNotBeEmpty)
+        if (txtEmail.text!!.isEmpty()){
+            txtLayoutEmail.error = getString(R.string.mustNotBeEmpty)
             return false
         }
 
@@ -120,10 +118,6 @@ class MainActivity : AppCompatActivity() {
             return false
         }
 
-        if (txtNum.text!!.isEmpty()){
-            txtLayoutNum.error = getString(R.string.mustNotBeEmpty)
-            return false
-        }
 
         return true
     }
