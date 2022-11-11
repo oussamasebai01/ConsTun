@@ -38,7 +38,7 @@ class SignupActivity : AppCompatActivity() {
             btnsignup.background=null
             SignInLayout.visibility = View.VISIBLE
             SignUpLayout.visibility = View.GONE
-            btnsignup.setTextColor(resources.getColor(R.color.pinkColor,null))
+            btnsignup.setTextColor(resources.getColor(R.color.green_700,null))
         }
 
         btnsignup.setOnClickListener{
@@ -48,7 +48,7 @@ class SignupActivity : AppCompatActivity() {
             btnsignin.background=null
             SignUpLayout.visibility = View.VISIBLE
             SignInLayout.visibility = View.GONE
-            btnsignin.setTextColor(resources.getColor(R.color.pinkColor,null))
+            btnsignin.setTextColor(resources.getColor(R.color.green_700,null))
         }
         btnsignUp.setOnClickListener {
             val intent = Intent(this,HomeActivity::class.java)

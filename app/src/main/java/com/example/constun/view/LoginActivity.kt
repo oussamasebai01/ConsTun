@@ -100,7 +100,6 @@ class LoginActivity : AppCompatActivity() {
         })
 
     }
-        //return tmp
         }
 
 

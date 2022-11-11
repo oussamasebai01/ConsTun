@@ -28,7 +28,8 @@
     <string name="mustNotBeEmpty">Must not be empty !</string>
     <string name="SignIn">SignIn</string>
     <string name="SignUp">SignUp</string>
-    <string name="password">Password</string>
+    <string name="password">password</string>
+    <string name="C_password">Confirm password</string>
     <string name="email">Email</string>
     <string name="numero">Numero</string>
     <string name="forget_password">Forget Password?</string>
@@ -36,4 +37,5 @@
     <string name="or">OR</string>
     <string name="eMail">Email</string>
     <string name="repeter_password">repeter password</string>
+    <string name="sign_in">Sign In</string>
 </resources>
