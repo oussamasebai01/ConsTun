@@ -38,4 +38,12 @@
     <string name="eMail">Email</string>
     <string name="repeter_password">repeter password</string>
     <string name="sign_in">Sign In</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_permis">image permis</string>
+    <string name="take_image">take image</string>
+    <string name="maricule">maricule voiture</string>
+    <string name="codeattestation">code Attestation assurance</string>
+    <string name="cin">CIN</string>
+    <string name="update">Update</string>
+    <string name="remember_me">Remember Me</string>
 </resources>

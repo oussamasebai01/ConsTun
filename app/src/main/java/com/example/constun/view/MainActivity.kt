@@ -1,11 +1,14 @@
 package com.example.constun.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -17,6 +20,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import tn.esprit.lolretrofit.utils.ApiInterface
+
+const val PREF_NAME = "LOGIN_PREF_LOL"
+const val LOGIN = "LOGIN"
+const val PASSWORD = "PASSWORD"
+const val IS_REMEMBRED = "IS_REMEMBRED"
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,14 +47,19 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var emailsLayout : TextInputLayout
     lateinit var passwordsLayout : TextInputLayout
+    lateinit var cbRememberMe: CheckBox
+    lateinit var cbRememberMe2: CheckBox
+
+    lateinit var mSharedPref: SharedPreferences
 
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mSharedPref = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
         emailText =findViewById(R.id.eMail)
         emailLayout = findViewById(R.id.eMailLayout)
@@ -66,6 +79,20 @@ class MainActivity : AppCompatActivity() {
 
         emailsLayout = findViewById(R.id.eMailsLayout)
         passwordsLayout = findViewById(R.id.passwordsLayout)
+
+        cbRememberMe = findViewById(R.id.cbRememberMe)
+        cbRememberMe2 = findViewById(R.id.cbRememberMe2)
+
+        mSharedPref= getSharedPreferences("LOGIN_PREF_LOL",
+            AppCompatActivity.MODE_PRIVATE)
+        val l =mSharedPref.getString(LOGIN,"")
+        if (mSharedPref.getBoolean(IS_REMEMBRED, false)){
+
+
+                navigate()
+
+
+        }
 
 
         btnsignin.setOnClickListener{
@@ -95,11 +122,14 @@ class MainActivity : AppCompatActivity() {
         btnsignUp.setOnClickListener{
 
             doLogin()
+            val intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
 
         }
         btnsignIn.setOnClickListener {
 
             doConnect()
+
         }
 
     }
@@ -126,9 +156,22 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 val user = response.body()
-
+                val email = user?.email
                 if (user!=null) {
                     Toast.makeText(this@MainActivity, "Registration Success", Toast.LENGTH_SHORT).show()
+                    if (cbRememberMe2.isChecked){
+                        mSharedPref.edit().apply{
+                            putBoolean(IS_REMEMBRED, true)
+                            putString(LOGIN, emailText.text.toString())
+                            putString(PASSWORD, passwordText.text.toString())
+                        }.apply()
+
+                    }else{
+                        mSharedPref.edit().clear().apply()
+                    }
+
+                        navigate()
+
                 }
 
                    else{
@@ -165,8 +208,18 @@ class MainActivity : AppCompatActivity() {
                     if (user != null) {
                         Toast.makeText(this@MainActivity, "Login Success", Toast.LENGTH_SHORT).show()
 
+                        if (cbRememberMe.isChecked){
+                            mSharedPref.edit().apply{
+                                putBoolean(IS_REMEMBRED, true)
+                                putString(LOGIN, emailText.text.toString())
+                                putString(PASSWORD, passwordText.text.toString())
+                            }.apply()
 
-                        startActivity(intent)
+                        }else{
+                            mSharedPref.edit().clear().apply()
+                        }
+                            navigate()
+
                     } else {
                         Toast.makeText(this@MainActivity, "User not found", Toast.LENGTH_SHORT).show()
                     }
@@ -209,5 +262,9 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+    private fun navigate(){
+        val intent = Intent(this,HomeActivity::class.java)
+        startActivity(intent)
     }
 }

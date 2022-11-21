@@ -65,4 +65,7 @@
     <style name="groupStylewhite_A700">
         <item name="android:background">@drawable/rectangle_bg_white_a700</item>
     </style>
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

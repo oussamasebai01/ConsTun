@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface ApiInterface {
@@ -30,6 +31,10 @@ interface ApiInterface {
     @POST("/user/signin")
     fun seConnecter(@Query("email") email:String, @Query("password") password:String): Call<User>
 
+    @PUT("/user/update")
+    fun updateProfile(@Query("email") email:String, @Query("numTel") numTel:Number,
+                      @Query("matricule") matricule:String, @Query("code_assurence") code_assurence:Number, @Query("cin") cin:Number):Call<User>
 
-
+    @POST("/user/file")
+    fun saveFile(@Query("imageCIN") imageCIN:String)
 }

@@ -40,17 +40,11 @@ class LoginActivity : AppCompatActivity() {
         txtLayoutPassword = findViewById(R.id.editTextpassword)
 
 
-
         btnLogin = findViewById(R.id.connect)
         btnLogin.setOnClickListener{
 
             doConnect()
 
-//            if(doConnect())
-//            {
-//                val intent = Intent(this,HomeActivity::class.java)
-//                startActivity(intent)
-//            }
         }
 
         btnCreer = findViewById(R.id.Creer)

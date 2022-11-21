@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".view.SignupActivity"
     android:orientation="vertical"
-    android:background="@drawable/backgroud"
+    android:background="@drawable/background2"
     >
-
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -161,6 +159,15 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <CheckBox
+                    android:id="@+id/cbRememberMe2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remember_me"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/colorPrimary" />
+
                 <Button
                     android:id="@+id/signUp"
                     android:text="@string/sign_up"
@@ -245,6 +252,22 @@
                     android:textAlignment="textEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <CheckBox
+                    android:id="@+id/cbRememberMe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remember_me"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:textColor="@color/colorPrimary" />
+                <TextView
+                    android:textSize="11sp"
+                    android:text="@string/forget_password"
+                    android:textColor="#616161"
+                    android:textStyle="normal"
+                    android:textAlignment="textEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
                 <Button
                     android:id="@+id/signIn"
                     android:text="@string/sign_in"
@@ -263,17 +286,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:text="@string/or"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:textStyle="normal"
-                android:textAlignment="center"
-                android:textColor="#474949"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_gravity="center"
