@@ -25,8 +25,8 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.ResetPasswordActivity"
-            android:exported="false">
+            android:name=".view.scanActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

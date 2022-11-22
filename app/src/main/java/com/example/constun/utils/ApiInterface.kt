@@ -1,7 +1,9 @@
 package tn.esprit.lolretrofit.utils
 
+import android.provider.ContactsContract.CommonDataKinds.Callable
 import android.provider.ContactsContract.CommonDataKinds.Email
 import com.example.constun.model.User
+import com.example.constun.model.Profile
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +18,7 @@ interface ApiInterface {
 
     companion object {
 
-        var BASE_URL ="http://192.168.35.227:9090/"
+        var BASE_URL ="http://10.217.20.2:9090/"
 
         fun create(): ApiInterface{
             val retrofit = Retrofit.Builder()
@@ -35,6 +37,7 @@ interface ApiInterface {
     fun updateProfile(@Query("email") email:String, @Query("numTel") numTel:Number,
                       @Query("matricule") matricule:String, @Query("code_assurence") code_assurence:Number, @Query("cin") cin:Number):Call<User>
 
-    @POST("/user/file")
-    fun saveFile(@Query("imageCIN") imageCIN:String)
+    @POST("/profile/")
+    fun saveFile(@Query("imageCIN") imageCIN:String, @Query("imagePermis") imagePermis:String,
+                 @Query("imageCarte") imageCarte:String, @Query("imageAttestation") imageAttestation:String): Call<Profile>
 }

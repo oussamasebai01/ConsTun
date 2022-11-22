@@ -46,7 +46,7 @@
     </androidx.cardview.widget.CardView>
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:columnOrderPreserved="true"
         android:background="@color/bluegray_400"
@@ -71,7 +71,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginLeft="10dp"
-                    android:onClick="TakePhoto"
+                    android:onClick="TakePhoto0"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/icon_cin"
                     tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
@@ -139,11 +139,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/image_carte"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginLeft="10dp"
+                    android:onClick="TakePhoto1"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/icon_permis"
                     tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
@@ -205,6 +206,7 @@
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/image_permis"
+                    android:onClick="TakePhoto2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
@@ -269,6 +271,7 @@
                     android:id="@+id/image_attestation"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:onClick="TakePhoto3"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/ic_baseline_add_circle_outline_24"/>
@@ -314,4 +317,18 @@
 
         </androidx.cardview.widget.CardView>
     </GridLayout>
+    <Button
+        android:id="@+id/signUp"
+        android:text="@string/sign_up"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/textColor"
+        android:layout_gravity="center"
+        app:shapeAppearanceOverlay="@style/Button5"
+        app:backgroundTint="@color/green_700"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

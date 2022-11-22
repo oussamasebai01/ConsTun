@@ -46,4 +46,5 @@
     <string name="cin">CIN</string>
     <string name="update">Update</string>
     <string name="remember_me">Remember Me</string>
+    <string name="generate">Generate</string>
 </resources>
