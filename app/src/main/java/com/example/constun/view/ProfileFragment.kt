@@ -17,8 +17,10 @@ import androidx.fragment.app.Fragment
 import com.example.constun.R
 import com.example.constun.databinding.FragmentProfileBinding
 import com.example.constun.model.User
+import com.example.constun.view.IS_REMEMBRED
 import com.example.constun.view.ImagesActivity
 import com.example.constun.view.LOGIN
+import com.example.constun.view.PASSWORD
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -28,7 +30,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import tn.esprit.lolretrofit.utils.ApiInterface
 
-
+const val PREF_NAME = "LOGIN_PREF_LOL"
+const val LOGIN = "LOGIN"
+const val PASSWORD = "PASSWORD"
+const val IS_REMEMBRED = "IS_REMEMBRED"
+const val NUMERO = "22222222"
+const val MATRICUL ="1TUN1"
+const val CODE = "1"
+const val CIN = "01"
 
 
 
@@ -89,6 +98,13 @@ class ProfileFragment : Fragment() {
                     val user = response.body()
                     if (user != null) {
                         Toast.makeText(activity, "update Success", Toast.LENGTH_SHORT).show()
+//                        mSharedPref.edit().apply{
+//                            //putBoolean(IS_REMEMBRED, true)
+//                            putString(NUMERO, NumTelprofile.text.toString())
+//                            putString(MATRICUL, matriculeprofile.text.toString())
+//                            putString(CODE, caaprofile.text.toString())
+//                            putString(CIN, cinprofile.text.toString())
+//                        }.apply()
 
                     } else {
                         Toast.makeText(activity, "User not found", Toast.LENGTH_SHORT).show()
@@ -107,6 +123,9 @@ class ProfileFragment : Fragment() {
 
         var v = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        mSharedPref= v.context.getSharedPreferences("LOGIN_PREF_LOL",
+            AppCompatActivity.MODE_PRIVATE
+        )
         Emailprofile = v.findViewById(R.id.Emailprofile)
         NumTelprofile = v.findViewById(R.id.NumTelprofile)
         matriculeprofile = v.findViewById(R.id.matriculeprofile)
@@ -114,14 +133,23 @@ class ProfileFragment : Fragment() {
         cinprofile = v.findViewById(R.id.cinprofile)
         updateprofile = v.findViewById(R.id.updateprofile)
         btnQR = v.findViewById(R.id.btnQR)
+        NumTelprofile.text = mSharedPref.getString(NUMERO,"")
+        matriculeprofile.text = mSharedPref.getString(MATRICUL,"")
+        caaprofile.text = mSharedPref.getString(CODE,"")
+        cinprofile.text = mSharedPref.getString(CIN,"")
 
-
-        mSharedPref= v.context.getSharedPreferences("LOGIN_PREF_LOL",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        Emailprofile.text = mSharedPref.getString(LOGIN,"")
+        Emailprofile.setText(mSharedPref.getString(LOGIN,""))
         updateprofile.setOnClickListener {
+
             doConnect()
+            mSharedPref.edit().apply{
+                //putBoolean(IS_REMEMBRED, true)
+                putString(NUMERO, NumTelprofile.text.toString())
+                putString(MATRICUL, matriculeprofile.text.toString())
+                putString(CODE, caaprofile.text.toString())
+                putString(CIN, cinprofile.text.toString())
+            }.apply()
+
         }
 
         v.findViewById<Button>(R.id.file).setOnClickListener{
@@ -168,7 +196,7 @@ class ProfileFragment : Fragment() {
         val codeWriter = MultiFormatWriter()
 
         try {
-            val bitMatrix = codeWriter.encode(text1 + "  "+ text2 + "  "+ text3 + " "+text4,
+            val bitMatrix = codeWriter.encode(text2 + ":"+ text3 + ":"+text4 + ":" +text1,
                 BarcodeFormat.QR_CODE, width, height)
             for (x in 0 until width){
                 for (y in 0 until height){

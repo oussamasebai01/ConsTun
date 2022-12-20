@@ -26,7 +26,6 @@ class HomeActivity : AppCompatActivity() {
 
                 R.id.home ->remplacefragment(HomeFragment())
                 R.id.profile ->remplacefragment(ProfileFragment())
-                R.id.images ->remplacefragment(ImagesFragment())
                 R.id.settings ->remplacefragment(SettingsFragment())
                 else -> {
 

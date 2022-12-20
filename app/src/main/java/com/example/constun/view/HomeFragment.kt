@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.constun.R
+import kotlinx.android.synthetic.main.fragment_view_pager.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,19 +29,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
     lateinit var editQR1 : EditText
-    lateinit var btnScan : Button
+//    lateinit var btnScan : Button
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -50,19 +43,21 @@ class HomeFragment : Fragment() {
 
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_home, container, false)
-        editQR1 = v.findViewById(R.id.editQR1)
-        btnScan = v.findViewById(R.id.btnScan)
+        //editQR1 = v.findViewById(R.id.editQR1)
+       // btnScan = v.findViewById(R.id.btnScan)
 
-        btnScan.setOnClickListener {
-            val scanActivityIntent = Intent(requireContext() , scanActivity::class.java)
-            startActivity(scanActivityIntent)
+       // btnScan.setOnClickListener {
+//            val scanActivityIntent = Intent(requireContext() , scanActivity::class.java)
+//            startActivity(scanActivityIntent)
+//
+//
+//            if (requireActivity().intent.hasExtra("data")) {
+//                editQR1.setText(requireActivity().intent.getStringExtra("key_name"))
+//            }
+//            val intent = Intent(this@HomeFragment.requireContext(),ViewPagerFragment::viewPager)
+//            startActivity(intent)
 
-
-            if (requireActivity().intent.hasExtra("data")) {
-                editQR1.setText(requireActivity().intent.getStringExtra("key_name"))
-            }
-
-        }
+       // }
 
 
 

@@ -245,6 +245,7 @@
 
 
                 <TextView
+                    android:id="@+id/forgetPassword"
                     android:textSize="11sp"
                     android:text="@string/forget_password"
                     android:textColor="#616161"
@@ -260,14 +261,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:textColor="@color/colorPrimary" />
-                <TextView
-                    android:textSize="11sp"
-                    android:text="@string/forget_password"
-                    android:textColor="#616161"
-                    android:textStyle="normal"
-                    android:textAlignment="textEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
                 <Button
                     android:id="@+id/signIn"
                     android:text="@string/sign_in"

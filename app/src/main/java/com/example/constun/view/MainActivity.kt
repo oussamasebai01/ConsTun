@@ -23,6 +23,7 @@ import tn.esprit.lolretrofit.utils.ApiInterface
 
 const val PREF_NAME = "LOGIN_PREF_LOL"
 const val LOGIN = "LOGIN"
+const val ID = "ID"
 const val PASSWORD = "PASSWORD"
 const val IS_REMEMBRED = "IS_REMEMBRED"
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var SignInLayout : View
     lateinit var btnsignup : TextView
     lateinit var btnsignin : TextView
+    lateinit var forgetPassword : TextView
 
     lateinit var emailText : TextInputEditText
     lateinit var emailLayout : TextInputLayout
@@ -82,16 +84,21 @@ class MainActivity : AppCompatActivity() {
 
         cbRememberMe = findViewById(R.id.cbRememberMe)
         cbRememberMe2 = findViewById(R.id.cbRememberMe2)
+        forgetPassword = findViewById(R.id.forgetPassword)
 
         mSharedPref= getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE)
-        val l =mSharedPref.getString(LOGIN,"")
+          mSharedPref.getString(LOGIN,"")
         if (mSharedPref.getBoolean(IS_REMEMBRED, false)){
 
 
                 navigate()
 
 
+        }
+        forgetPassword.setOnClickListener{
+            val intent = Intent (this,ForgetPassword::class.java)
+            startActivity(intent)
         }
 
 
@@ -156,14 +163,14 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 val user = response.body()
-                val email = user?.email
                 if (user!=null) {
                     Toast.makeText(this@MainActivity, "Registration Success", Toast.LENGTH_SHORT).show()
                     if (cbRememberMe2.isChecked){
                         mSharedPref.edit().apply{
                             putBoolean(IS_REMEMBRED, true)
-                            putString(LOGIN, emailText.text.toString())
-                            putString(PASSWORD, passwordText.text.toString())
+                            putString(ID ,user._id)
+                            putString(LOGIN, user.email)
+                            putString(PASSWORD, user.password)
                         }.apply()
 
                     }else{

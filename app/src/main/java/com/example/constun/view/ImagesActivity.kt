@@ -4,37 +4,36 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.constun.R
 import com.example.constun.model.Profile
-import com.example.constun.model.User
+import com.example.constun.utils.UploadRequestBody
+import com.example.constun.utils.getFileName
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import tn.esprit.lolretrofit.utils.ApiInterface
-import javax.security.auth.callback.Callback
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
-class ImagesActivity : AppCompatActivity() {
+class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
     lateinit var image_cin : ImageView
     lateinit var image_permis : ImageView
     lateinit var image_carte : ImageView
     lateinit var image_attestation : ImageView
+    lateinit var select : Button
     lateinit var btn : Button
     lateinit var txt_cin : TextView
-    var pickedPhoto : Uri? = null
-    var pickedBitmap : Bitmap? = null
+    private var REQUEST_CODE_IMAGE = 100
+    private val mArrayUri = arrayListOf<Uri>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,51 +43,19 @@ class ImagesActivity : AppCompatActivity() {
         image_cin=findViewById(R.id.image_cin)
         image_carte=findViewById(R.id.image_carte)
         image_attestation=findViewById(R.id.image_attestation)
-        btn = findViewById(R.id.signUp)
+        btn = findViewById(R.id.upload)
         txt_cin = findViewById(R.id.txt_cin)
+        select = findViewById(R.id.select)
+        select.setOnClickListener {
+            val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            gallery.type = "image/*"
+            val mimeTypes = arrayOf("image/jpeg", "image/png")
+            gallery.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            startActivityForResult(gallery,REQUEST_CODE_IMAGE)
+        }
         btn.setOnClickListener {
             save()
-        }
-    }
-
-    fun TakePhoto0(view: View) {
-       if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_DENIED){
-           ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-       }else{
-
-           val galeriIntext = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-           startActivityForResult(galeriIntext,2)
-       }
-    }
-    fun TakePhoto1(view: View) {
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-        }else{
-
-            val galeriIntext = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galeriIntext,2)
-        }
-    }
-    fun TakePhoto2(view: View) {
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-        }else{
-
-            val galeriIntext = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galeriIntext,2)
-        }
-    }
-    fun TakePhoto3(view: View) {
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),1)
-        }else{
-
-            val galeriIntext = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galeriIntext,2)
         }
     }
 
@@ -106,35 +73,66 @@ class ImagesActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("SuspiciousIndentation")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        if(requestCode==2 &&resultCode == Activity.RESULT_OK && data != null){
-            pickedPhoto = data.data
-            if(pickedPhoto != null){
-                if(Build.VERSION.SDK_INT>=28){
-                    val source = ImageDecoder.createSource(this.contentResolver,pickedPhoto!!)
-                    pickedBitmap = ImageDecoder.decodeBitmap(source)
-                    image_cin.setImageBitmap(pickedBitmap)
-                    txt_cin.text = image_cin.toString()
-                    image_permis.setImageBitmap(pickedBitmap)
-                    image_carte.setImageBitmap(pickedBitmap)
-                    image_attestation.setImageBitmap(pickedBitmap)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                100 -> {
+                    //image = data?.data
+                    //image1.setImageURI(image)
+                    if (data != null) {
+                        if (data.clipData != null) {
+                            val mClipData = data.clipData
+                            val cout = data.clipData!!.itemCount
+                            for (i in 0 until cout) {
+                                // adding imageuri in array
+                                val imageurl: Uri = data.clipData!!.getItemAt(i).uri
+                                mArrayUri.add(imageurl)
+                            }
+                            // setting 1st selected image into image switcher
+                            image_cin.setImageURI(mArrayUri.get(0))
+                            image_carte.setImageURI(mArrayUri.get(1))
+                            image_permis.setImageURI(mArrayUri.get(2))
+                            image_attestation.setImageURI(mArrayUri.get(3))
+
+                            //println(mArrayUri)
+                        } else {
+                            val imageurl: Uri = data.getData()!!
+                            mArrayUri.add(imageurl)
+                           // image1.setImageURI(mArrayUri.get(0))
+
+                        }
+                    }
                 }
             }
         }
 
-        super.onActivityResult(requestCode, resultCode, data)
     }
-
+    val fileArray = arrayListOf<File>()
+    val bodyArray = arrayListOf<UploadRequestBody>()
     private fun save(){
+        for (u :Uri in mArrayUri){
+            var parcelFileDescriptor = contentResolver.openFileDescriptor(u,"r",null) ?:return
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor);
+            val file = File(cacheDir, contentResolver.getFileName(u))
+            fileArray.add(file)
+            val outputStream = FileOutputStream(file)
+            inputStream.copyTo(outputStream)
+            val body = UploadRequestBody(file, "image",this)
+            bodyArray.add(body)
+        }
 
         val apiInterface = ApiInterface.create()
 
         apiInterface.saveFile(
-            image_cin.toString(),
-            image_permis.toString(),
-            image_carte.toString(),
-            image_attestation.toString(),
+            "321",
+            MultipartBody.Part.createFormData("imageCIN", fileArray[0].name, bodyArray[0]),
+            MultipartBody.Part.createFormData("imagePermis", fileArray[1].name, bodyArray[1]),
+            MultipartBody.Part.createFormData("imageCarte", fileArray[2].name, bodyArray[2]),
+            MultipartBody.Part.createFormData("imageAttestation", fileArray[3].name, bodyArray[3]),
         ).enqueue(object : retrofit2.Callback<Profile> {
 
 
@@ -151,5 +149,9 @@ class ImagesActivity : AppCompatActivity() {
 
 
         })
+    }
+
+    override fun onProgressUpdate(pecentage: Int) {
+
     }
 }

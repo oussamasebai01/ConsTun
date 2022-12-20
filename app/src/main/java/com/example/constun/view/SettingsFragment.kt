@@ -1,10 +1,14 @@
 package com.example.constun.view
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.example.constun.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,6 +25,9 @@ class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var exit :Button
+    lateinit var mSharedPref: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +42,15 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        var v = inflater.inflate(R.layout.fragment_settings, container, false)
+        mSharedPref= v.context.getSharedPreferences("LOGIN_PREF_LOL",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        exit = v.findViewById(R.id.exit)
+        exit.setOnClickListener {
+            v.context.getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit().clear().apply()
+        }
+        return v
     }
 
     companion object {

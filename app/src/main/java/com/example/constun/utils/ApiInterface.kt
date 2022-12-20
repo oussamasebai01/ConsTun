@@ -1,15 +1,16 @@
 package tn.esprit.lolretrofit.utils
 
-import android.provider.ContactsContract.CommonDataKinds.Callable
-import android.provider.ContactsContract.CommonDataKinds.Email
-import com.example.constun.model.User
+import com.example.constun.model.Customer
 import com.example.constun.model.Profile
+import com.example.constun.model.User
+import com.example.constun.model.canstat
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.*
 import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
 
 interface ApiInterface {
 
@@ -18,8 +19,7 @@ interface ApiInterface {
 
     companion object {
 
-        var BASE_URL ="http://172.16.8.110:9090/"
-
+        var BASE_URL ="http://172.16.0.153:9090/"
         fun create(): ApiInterface{
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -34,10 +34,64 @@ interface ApiInterface {
     fun seConnecter(@Query("email") email:String, @Query("password") password:String): Call<User>
 
     @PUT("/user/update")
-    fun updateProfile(@Query("email") email:String, @Query("numTel") numTel:Number,
-                      @Query("matricule") matricule:String, @Query("code_assurence") code_assurence:Number, @Query("cin") cin:Number):Call<User>
+    fun updateProfile(
+        @Query("email") email: String,
+        @Query("numTel") numTel: Number,
+        @Query("matricule") matricule: String,
+        @Query("code_assurence") code_assurence: Number,
+        @Query("cin") cin: Number,
+    ):Call<User>
 
-    @POST("/profile/")
-    fun saveFile(@Query("imageCIN") imageCIN:String, @Query("imagePermis") imagePermis:String,
-                 @Query("imageCarte") imageCarte:String, @Query("imageAttestation") imageAttestation:String): Call<Profile>
+    @Multipart
+    @POST("/profile/add")
+    fun saveFile(
+        @Part("_id") _id: String,
+        @Part imageCIN:MultipartBody.Part,
+        @Part imagePermis:MultipartBody.Part,
+        @Part imageCarte:MultipartBody.Part,
+        @Part imageAttestation:MultipartBody.Part,
+    ): Call<Profile>
+
+    @GET("/canstat/SMS")
+    fun sendSMS(
+    ): Call<canstat>
+
+    @Multipart
+    @POST("files/AddCustomer")
+    fun addCustomer(
+        @Part image: MultipartBody.Part?,
+        @Part("customer_name") customername: RequestBody?,
+        @Part("reference") refernce: RequestBody?,
+    ): Call<Customer?>?
+
+    @Multipart
+    @POST("files/AddCustomer")
+    fun uploadImage(
+        @Part image:MultipartBody.Part,
+        @Part("customer_name") customer_name: String
+    ):Call<Customer>
+
+    @Multipart
+    @POST("canstat/add")
+    fun CreateCanstat(
+        @Part("nomA") nomA: String?,
+        @Part("matriculA") matriculA:String?,
+        @Part("code_assurenceA") code_assurenceA:String?,
+        @Part("cinA") cinA:String?,
+        @Part("numTelA") numTelA:String?,
+        @Part("nomB") nomB:String?,
+        @Part("matriculB") matriculB:String?,
+        @Part("code_assurenceB") code_assurenceB:String?,
+        @Part("cinB") cinB:String?,
+        @Part("numTelB") numTelB:String?,
+        @Part("localisation") localisation:String,
+        @Part image1:MultipartBody.Part,
+        @Part image2:MultipartBody.Part,
+        @Part("description") description:String
+    ):Call<canstat>
+
+    @PUT("user/forget")
+    fun ForgetPassword(
+        @Query("email") email : String
+    ):Call<User>
 }
