@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import retrofit2.http.POST
+
 
 interface ApiInterface {
 
@@ -19,7 +19,7 @@ interface ApiInterface {
 
     companion object {
 
-        var BASE_URL ="http://172.16.0.153:9090/"
+        var BASE_URL ="http://10.0.2.2:9090/"
         fun create(): ApiInterface{
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -32,6 +32,8 @@ interface ApiInterface {
 
     @POST("/user/signin")
     fun seConnecter(@Query("email") email:String, @Query("password") password:String): Call<User>
+    @POST("/profile/get")
+    fun getFile(@Query("_id") _id: String): Call<Profile>
 
     @PUT("/user/update")
     fun updateProfile(
@@ -45,7 +47,12 @@ interface ApiInterface {
     @Multipart
     @POST("/profile/add")
     fun saveFile(
+          //@Body hashMap: HashMap<String, String>
         @Part("_id") _id: String,
+//        @Part("imageCIN\"; filename=\"pp.png\" ") imageCIN: RequestBody?,
+//        @Part("imagePermis\"; filename=\"ee.png\" ") imagePermis: RequestBody?,
+//        @Part("imageCarte\"; filename=\"ff.png\" ") imageCarte: RequestBody?,
+//        @Part("imageAttestation\"; filename=\"gg.png\" ") imageAttestation: RequestBody?,
         @Part imageCIN:MultipartBody.Part,
         @Part imagePermis:MultipartBody.Part,
         @Part imageCarte:MultipartBody.Part,
@@ -67,31 +74,39 @@ interface ApiInterface {
     @Multipart
     @POST("files/AddCustomer")
     fun uploadImage(
-        @Part image:MultipartBody.Part,
-        @Part("customer_name") customer_name: String
+        @Part image: MultipartBody.Part,
+        @Part("customer_name") customer_name: String,
     ):Call<Customer>
 
     @Multipart
     @POST("canstat/add")
     fun CreateCanstat(
         @Part("nomA") nomA: String?,
-        @Part("matriculA") matriculA:String?,
-        @Part("code_assurenceA") code_assurenceA:String?,
-        @Part("cinA") cinA:String?,
-        @Part("numTelA") numTelA:String?,
-        @Part("nomB") nomB:String?,
-        @Part("matriculB") matriculB:String?,
-        @Part("code_assurenceB") code_assurenceB:String?,
-        @Part("cinB") cinB:String?,
-        @Part("numTelB") numTelB:String?,
-        @Part("localisation") localisation:String,
-        @Part image1:MultipartBody.Part,
-        @Part image2:MultipartBody.Part,
-        @Part("description") description:String
+        @Part("matriculA") matriculA: String?,
+        @Part("code_assurenceA") code_assurenceA: String?,
+        @Part("cinA") cinA: String?,
+        @Part("numTelA") numTelA: String?,
+        @Part("nomB") nomB: String?,
+        @Part("matriculB") matriculB: String?,
+        @Part("code_assurenceB") code_assurenceB: String?,
+        @Part("cinB") cinB: String?,
+        @Part("numTelB") numTelB: String?,
+        @Part("localisation") localisation: String,
+        @Part image1: MultipartBody.Part,
+        @Part image2: MultipartBody.Part,
+        @Part("description") description: String,
     ):Call<canstat>
 
     @PUT("user/forget")
     fun ForgetPassword(
-        @Query("email") email : String
+        @Query("email") email: String,
     ):Call<User>
+
+    @Multipart
+    @POST("/api/Accounts/editaccount")
+    fun editUser(
+        @Part("file\"; filename=\"pp.png\" ") file: RequestBody?,
+        @Part("FirstName") fname: RequestBody?,
+        @Part("Id") id: RequestBody?,
+    ): Call<User?>?
 }
