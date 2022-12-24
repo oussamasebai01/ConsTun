@@ -17,10 +17,8 @@ import androidx.fragment.app.Fragment
 import com.example.constun.R
 import com.example.constun.databinding.FragmentProfileBinding
 import com.example.constun.model.User
-import com.example.constun.view.IS_REMEMBRED
-import com.example.constun.view.ImagesActivity
+import com.example.constun.view.*
 import com.example.constun.view.LOGIN
-import com.example.constun.view.PASSWORD
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -73,14 +71,45 @@ class ProfileFragment : Fragment() {
 
 
     }
+    private fun getInfo(){
+        val apiInterface = ApiInterface.create()
+        val id = mSharedPref.getString(ID,"")
+//        val mat = mSharedPref.getString(MATRICUL,"")
+//        val cod = mSharedPref.getString(CODE,"")
+//        val cin = mSharedPref.getString(CIN,"")
+        println(id)
+        apiInterface.getInfo(id.toString()).enqueue(object : Callback<User>{
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                val user = response.body()
+                if (user != null) {
+                    Toast.makeText(activity, "update Success", Toast.LENGTH_SHORT).show()
+                    mSharedPref.edit().apply{
+                            //putBoolean(IS_REMEMBRED, true)
+                            putString(NUMERO, user.numTel)
+                            putString(MATRICUL, user.matricule)
+                            putString(CODE, user.code_assurence)
+                            putString(CIN, user.cin)
+                        }.apply()
+
+                } else {
+                    Toast.makeText(activity, "User not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 
     private  fun doConnect() {
 
 
 
             val apiInterface = ApiInterface.create()
-
-            apiInterface.updateProfile(Emailprofile.text.toString(), NumTelprofile.text.toString().toInt(),matriculeprofile.text.toString(), caaprofile.text.toString().toInt(), cinprofile.text.toString().toInt()).enqueue(object :
+            val id = mSharedPref.getString(ID,"")
+            apiInterface.updateProfile(id.toString(), NumTelprofile.text.toString().toInt(),matriculeprofile.text.toString(), caaprofile.text.toString().toInt(), cinprofile.text.toString().toInt()).enqueue(object :
                 Callback<User> {
 
 
@@ -139,9 +168,11 @@ class ProfileFragment : Fragment() {
         cinprofile.text = mSharedPref.getString(CIN,"")
 
         Emailprofile.setText(mSharedPref.getString(LOGIN,""))
+        getInfo()
         updateprofile.setOnClickListener {
 
             doConnect()
+
             mSharedPref.edit().apply{
                 //putBoolean(IS_REMEMBRED, true)
                 putString(NUMERO, NumTelprofile.text.toString())

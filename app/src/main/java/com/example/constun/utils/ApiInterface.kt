@@ -34,10 +34,12 @@ interface ApiInterface {
     fun seConnecter(@Query("email") email:String, @Query("password") password:String): Call<User>
     @POST("/profile/get")
     fun getFile(@Query("_id") _id: String): Call<Profile>
+    @POST("/user/update")
+    fun getInfo(@Query("_id") _id: String): Call<User>
 
     @PUT("/user/update")
     fun updateProfile(
-        @Query("email") email: String,
+        @Query("_id") _id: String,
         @Query("numTel") numTel: Number,
         @Query("matricule") matricule: String,
         @Query("code_assurence") code_assurence: Number,
