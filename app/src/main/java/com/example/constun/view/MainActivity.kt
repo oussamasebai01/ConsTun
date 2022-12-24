@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         mSharedPref= getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE)
+
           mSharedPref.getString(LOGIN,"")
         if (mSharedPref.getBoolean(IS_REMEMBRED, false)){
 
@@ -127,16 +128,10 @@ class MainActivity : AppCompatActivity() {
 
 
         btnsignUp.setOnClickListener{
-
             doLogin()
-            val intent = Intent(this,HomeActivity::class.java)
-            startActivity(intent)
-
         }
         btnsignIn.setOnClickListener {
-
             doConnect()
-
         }
 
     }
@@ -176,9 +171,7 @@ class MainActivity : AppCompatActivity() {
                     }else{
                         mSharedPref.edit().clear().apply()
                     }
-
                         navigate()
-
                 }
 
                    else{
@@ -218,8 +211,9 @@ class MainActivity : AppCompatActivity() {
                         if (cbRememberMe.isChecked){
                             mSharedPref.edit().apply{
                                 putBoolean(IS_REMEMBRED, true)
-                                putString(LOGIN, emailText.text.toString())
-                                putString(PASSWORD, passwordText.text.toString())
+                                putString(ID ,user._id)
+                                putString(LOGIN, user.email)
+                                putString(PASSWORD, user.password)
                             }.apply()
 
                         }else{

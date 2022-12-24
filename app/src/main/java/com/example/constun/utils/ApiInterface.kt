@@ -47,12 +47,7 @@ interface ApiInterface {
     @Multipart
     @POST("/profile/add")
     fun saveFile(
-          //@Body hashMap: HashMap<String, String>
-        @Part("_id") _id: String,
-//        @Part("imageCIN\"; filename=\"pp.png\" ") imageCIN: RequestBody?,
-//        @Part("imagePermis\"; filename=\"ee.png\" ") imagePermis: RequestBody?,
-//        @Part("imageCarte\"; filename=\"ff.png\" ") imageCarte: RequestBody?,
-//        @Part("imageAttestation\"; filename=\"gg.png\" ") imageAttestation: RequestBody?,
+        @Query("_id") _id: String,
         @Part imageCIN:MultipartBody.Part,
         @Part imagePermis:MultipartBody.Part,
         @Part imageCarte:MultipartBody.Part,

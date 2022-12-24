@@ -52,6 +52,7 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
         select = findViewById(R.id.select)
         mSharedPref= getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE)
+        val id = mSharedPref.getString(ID,"")
 
         select.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -103,7 +104,6 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
                             }
                             // setting 1st selected image into image switcher
                             image_cin.setImageURI(mArrayUri.get(0))
-                            println("******************************"+mArrayUri.get(0))
                             image_carte.setImageURI(mArrayUri.get(1))
                             image_permis.setImageURI(mArrayUri.get(2))
                             image_attestation.setImageURI(mArrayUri.get(3))
@@ -124,6 +124,7 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
     val fileArray = arrayListOf<File>()
     val bodyArray =  arrayListOf<RequestBody>()
     val map : HashMap<String, String> = HashMap()
+    @SuppressLint("SuspiciousIndentation")
     private fun save(){
         for (u :Uri in mArrayUri){
             var parcelFileDescriptor = contentResolver.openFileDescriptor(u,"r",null) ?:return
@@ -131,59 +132,52 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
             val file = File(cacheDir, contentResolver.getFileName(u))
             fileArray.add(file)
             val outputStream = FileOutputStream(file)
+            println("++++++++++"+file)
             inputStream.copyTo(outputStream)
             val body = UploadRequestBody(file, "image",this)
-            println("+++++++++++++++"+body)
+            println("************"+body)
             bodyArray.add(body)
-//            val path = u.path
-//            val name = path?.substring(path.lastIndexOf("/") + 1)
-//            val file = File(name)
-//            fileArray.add(file)
-//            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-//           // val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
-//            bodyArray.add(requestFile)
         }
 
         val apiInterface = ApiInterface.create()
-        map["_id"]="258"
-        map["imageCIN"]=fileArray[0].toString()
-        map["imagePermis"]=fileArray[1].toString()
-        map["imageCarte"]=fileArray[2].toString()
-        map["imageAttestation"]=fileArray[3].toString()
-        apiInterface.saveFile(
-           // map
-            "147",
-            MultipartBody.Part.createFormData("imageCIN", fileArray[0].name, bodyArray[0]),
-            MultipartBody.Part.createFormData("imagePermis", fileArray[1].name, bodyArray[1]),
-            MultipartBody.Part.createFormData("imageCarte", fileArray[2].name, bodyArray[2]),
-            MultipartBody.Part.createFormData("imageAttestation", fileArray[3].name, bodyArray[3]),
-        ).enqueue(object : retrofit2.Callback<Profile> {
-
-            override fun onFailure(call: Call<Profile>, t: Throwable) {
-                Toast.makeText(this@ImagesActivity ,"Connexion error!", Toast.LENGTH_SHORT).show()
-
-            }
-
-
-            override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
-
-                    Toast.makeText(this@ImagesActivity, "Registration Success", Toast.LENGTH_SHORT).show()
+        val id = mSharedPref.getString(ID,"")
+            apiInterface.saveFile(
+                id.toString(),
+                MultipartBody.Part.createFormData("imageCIN", fileArray[0].name, bodyArray[0]),
+                MultipartBody.Part.createFormData("imagePermis", fileArray[1].name, bodyArray[1]),
+                MultipartBody.Part.createFormData("imageCarte", fileArray[2].name, bodyArray[2]),
+                MultipartBody.Part.createFormData("imageAttestation", fileArray[3].name, bodyArray[3]),
+            ).enqueue(object : retrofit2.Callback<Profile> {
+                override fun onFailure(call: Call<Profile>, t: Throwable) {
+                    Toast.makeText(this@ImagesActivity ,"Connexion error!", Toast.LENGTH_SHORT).show()
                 }
 
 
-        })
+                override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
+                    if(response.isSuccessful){
+                        Toast.makeText(this@ImagesActivity, "Registration Success", Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                        Toast.makeText(this@ImagesActivity, "error", Toast.LENGTH_SHORT).show()
+
+
+                }
+
+
+            })
+
     }
     private fun getFile(){
         val apiInterface = ApiInterface.create()
         val id = mSharedPref.getString(ID,"")
         if (id != null) {
-            apiInterface.getFile("63a062b1b8e05410af08de1b").enqueue(object  :retrofit2.Callback<Profile>{
+            apiInterface.getFile(id.toString()).enqueue(object  :retrofit2.Callback<Profile>{
                 override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
                     val profile = response.body()
                     if (profile!=null)
                     {
                         com.squareup.picasso.Picasso.with(applicationContext)
-                            .load("http://localhost:9090/img/image4.png1671793941284.png")
+                            .load(profile.imageCIN)
                             .into(image_cin)
                         com.squareup.picasso.Picasso.with(applicationContext)
                             .load(profile.imageCarte)
