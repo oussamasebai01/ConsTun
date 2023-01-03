@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,10 +14,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.constun.R
@@ -24,7 +22,6 @@ import com.example.constun.model.canstat
 import com.example.constun.utils.UploadRequestBody
 import com.example.constun.utils.getFileName
 import com.example.constun.utils.snackbar
-import kotlinx.android.synthetic.main.activity_create1.*
 import kotlinx.android.synthetic.main.fragment_third.view.*
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -34,6 +31,9 @@ import tn.esprit.lolretrofit.utils.ApiInterface
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import kotlinx.android.synthetic.main.fragment_third.*
 
 @Suppress("UNREACHABLE_CODE")
 class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
@@ -49,6 +49,9 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
     private val mArrayUri = arrayListOf<Uri>()
     lateinit var mSharedPref: SharedPreferences
     lateinit var gallery : Button
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var mSharedPrefs: SharedPreferences
+    lateinit var description : EditText
 
     companion object{
         private const val REQUEST_CODE_IMAGE = 100
@@ -64,10 +67,12 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
 
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
             val file = File(requireActivity().cacheDir, requireActivity().contentResolver.getFileName(u))
+            println("file"+file)
             fileArray.add(file)
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
             val body = UploadRequestBody(file, "image", this)
+            println("body"+body)
             bodyArray.add(body)
         }
         val apiInterface = ApiInterface.create()
@@ -78,15 +83,15 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
             mSharedPref.getString(CODE,""),
             mSharedPref.getString(CIN,""),
             mSharedPref.getString(NUMERO,""),
-            mSharedPref.getString(NOMB,""),
-            mSharedPref.getString(MATRICULB,""),
-            mSharedPref.getString(CODEB,""),
-            mSharedPref.getString(CINB,""),
-            mSharedPref.getString(NUMEROB,""),
+            mSharedPrefs.getString(NOMB,""),
+            mSharedPrefs.getString(MATRICULEB,""),
+            mSharedPrefs.getString(CODEB,""),
+            mSharedPrefs.getString(CINB,""),
+            mSharedPrefs.getString(NUMEROB,""),
             localisation.text.toString(),
             MultipartBody.Part.createFormData("image1", fileArray[0].name, bodyArray[0]),
             MultipartBody.Part.createFormData("image2", fileArray[1].name, bodyArray[1]),
-            "aa"
+            description.text.toString()
 
         ).enqueue(object : Callback<canstat> {
 
@@ -96,7 +101,7 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
             }
 
             override fun onFailure(call: Call<canstat>, t: Throwable) {
-                layout_root.snackbar(t.message!!)
+               // layout_root.snackbar(t.message!!)
             }
 
         })
@@ -110,6 +115,8 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
         mSharedPref= view.context.getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE
         )
+        mSharedPrefs = view.context.getSharedPreferences(NAME, AppCompatActivity.MODE_PRIVATE)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
         image1 = view.findViewById(R.id.img1)
         image2 = view.findViewById(R.id.img2)
         creatbtn = view.findViewById(R.id.save)
@@ -117,6 +124,7 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
         selectbtn = view.findViewById(R.id.select)
         localisation = view.findViewById(R.id.editTextLocation)
         gallery = view.findViewById(R.id.gallery)
+        description = view.findViewById(R.id.description)
         gallery.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             gallery.type = "image/*"
@@ -125,9 +133,44 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
             gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(gallery,REQUEST_CODE_IMAGE)
         }
+        selectbtn.setOnClickListener { checkLocationPermission() }
+        sendbtn.setOnClickListener {
+
+            if(valide() && bodyArray.size == 2) {
+                val apiInterface = ApiInterface.create()
+
+                apiInterface.sendSMS(localisation.text.toString()).enqueue(object :
+                    Callback<canstat> {
+
+                    override fun onFailure(call: Call<canstat>, t: Throwable) {
+
+                        println("failure")
+
+                    }
+
+                    override fun onResponse(call: Call<canstat>, response: Response<canstat>) {
+
+                        val constat = response.body()
+                        if (constat != null) {
+                            println("SMS sent")
+
+                        } else {
+                            println("SMS not sent")
+                        }
+                    }
+
+                })
+            }
+            else
+                Toast.makeText(requireContext(), "verfiee !!", Toast.LENGTH_SHORT).show()
+        }
         creatbtn.setOnClickListener {
             uploadImage()
         }
+        println("555555"+ mSharedPref.getString(NOMA,""))
+        println( "666666"+mSharedPrefs.getString(NOMB,""))
+        println("7777777"+mSharedPref.getString(MATRICUL,""))
+
         return view
     }
 
@@ -166,6 +209,40 @@ class ThirdFragment : Fragment(), UploadRequestBody.UploadCallback {
             }
         }
 
+    }
+    @SuppressLint("SetTextI18n")
+    private fun checkLocationPermission() {
+        val task = fusedLocationProviderClient.lastLocation
+
+        if (ActivityCompat.checkSelfPermission(this.requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this.requireContext(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            ActivityCompat.requestPermissions(this.requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                101)
+            return
+        }
+
+        task.addOnSuccessListener {
+            if (it != null) {
+                val text = "${it.latitude},${it.longitude}"
+                localisation.setText(text)
+                Toast.makeText(requireContext(),
+                    "${it.latitude} ${it.longitude}",
+                    Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+    }
+    private fun valide():Boolean{
+        if(localisation.text!!.isEmpty()||description.text!!.isEmpty())
+            return false
+        else
+            return true
     }
 
     override fun onProgressUpdate(pecentage: Int) {

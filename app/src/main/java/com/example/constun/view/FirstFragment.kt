@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -38,6 +39,13 @@ class FirstFragment : Fragment() {
         lateinit var numA : EditText
         lateinit var mSharedPref: SharedPreferences
 
+
+        private fun verif():Boolean{
+            if (nomA.text!!.isEmpty()||matriculA.text!!.isEmpty()||codeA.text!!.isEmpty()||cinA.text!!.isEmpty()||numA.text!!.isEmpty())
+                return false
+            else
+                return true
+        }
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +67,7 @@ class FirstFragment : Fragment() {
         cinA.setText(mSharedPref.getString(CIN,""))
         numA.setText(mSharedPref.getString(NUMERO,""))
         next.setOnClickListener {
+            if (verif()){
             fm= requireFragmentManager()
              ft = fm.beginTransaction()
             ft.replace(R.id.fragmentContainerView2, SecandFragment())
@@ -68,6 +77,11 @@ class FirstFragment : Fragment() {
 
             }.apply()
         }
+            else
+                Toast.makeText(requireContext(),"empty field",Toast.LENGTH_SHORT).show()
+        }
+
+        println( "+++++++"+mSharedPref.getString(NOMA,""))
         return view
     }
 

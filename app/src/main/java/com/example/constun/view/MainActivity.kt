@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.widget.doAfterTextChanged
 import com.example.constun.R
 import com.example.constun.model.User
 import com.google.android.material.textfield.TextInputEditText
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables")
+    @SuppressLint("MissingInflatedId", "UseCompatLoadingForDrawables", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -89,12 +90,9 @@ class MainActivity : AppCompatActivity() {
         mSharedPref= getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE)
 
-          mSharedPref.getString(LOGIN,"")
+         // mSharedPref.getString(LOGIN,"")
         if (mSharedPref.getBoolean(IS_REMEMBRED, false)){
-
-
                 navigate()
-
 
         }
         forgetPassword.setOnClickListener{
@@ -140,27 +138,22 @@ class MainActivity : AppCompatActivity() {
 
         if(validate_signup())
         {
-
+            btnsignUp.isEnabled=false
         val apiInterface = ApiInterface.create()
-
-        apiInterface.inscrir(
-            emailText.text.toString(),
-            passwordText.text.toString(),
+            val user = User(email =emailText.text.toString(), password =  passwordText.text.toString() )
+        apiInterface.inscrir(user
         ).enqueue(object : Callback<User> {
-
-
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Connexion error!", Toast.LENGTH_SHORT).show()
-
+                btnsignUp.isEnabled=true
             }
-
-
+            @SuppressLint("SuspiciousIndentation")
             override fun onResponse(call: Call<User>, response: Response<User>) {
 
                 val user = response.body()
                 if (user!=null) {
                     Toast.makeText(this@MainActivity, "Registration Success", Toast.LENGTH_SHORT).show()
-                    if (cbRememberMe2.isChecked){
+                    btnsignUp.isEnabled=true
                         mSharedPref.edit().apply{
                             putBoolean(IS_REMEMBRED, true)
                             putString(ID ,user._id)
@@ -168,14 +161,12 @@ class MainActivity : AppCompatActivity() {
                             putString(PASSWORD, user.password)
                         }.apply()
 
-                    }else{
-                        mSharedPref.edit().clear().apply()
-                    }
                         navigate()
                 }
 
                    else{
                     Toast.makeText(this@MainActivity, "User Already Exist. Please Login", Toast.LENGTH_SHORT).show()
+                    btnsignUp.isEnabled=true
                 }
             }
 
@@ -189,40 +180,31 @@ class MainActivity : AppCompatActivity() {
         if(validate_signin())
         {
             val apiInterface = ApiInterface.create()
+            btnsignIn.isEnabled=false
 
             apiInterface.seConnecter(email.text.toString(), password.text.toString()).enqueue(object : Callback<User> {
 
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
                     Toast.makeText(this@MainActivity, "Connexion error!", Toast.LENGTH_SHORT).show()
-
+                    btnsignIn.isEnabled=true
                 }
 
-
-
                 override fun onResponse(call: Call<User>, response: Response<User>) {
-
-
-
                     val user = response.body()
                     if (user != null) {
                         Toast.makeText(this@MainActivity, "Login Success", Toast.LENGTH_SHORT).show()
-
-                        if (cbRememberMe.isChecked){
                             mSharedPref.edit().apply{
                                 putBoolean(IS_REMEMBRED, true)
                                 putString(ID ,user._id)
                                 putString(LOGIN, user.email)
                                 putString(PASSWORD, user.password)
                             }.apply()
-
-                        }else{
-                            mSharedPref.edit().clear().apply()
-                        }
                             navigate()
-
+                        btnsignIn.isEnabled=true
                     } else {
                         Toast.makeText(this@MainActivity, "User not found", Toast.LENGTH_SHORT).show()
+                        btnsignIn.isEnabled=true
                     }
                 }
 
@@ -236,12 +218,13 @@ class MainActivity : AppCompatActivity() {
         passwordLayout.error = null
         password2Layout.error = null
 
-        if (emailText.text!!.isEmpty()){
+        if ( !android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()) {
             emailLayout.error = getString(R.string.mustNotBeEmpty)
             return false
         }
 
-        if (passwordText.text!!.isEmpty()){
+        if (passwordText.text!!.isEmpty() || password2Text.text!!.isEmpty() || passwordText.text.toString() != password2Text.text.toString()||
+            passwordText.text!!.toString().length<8 ){
             passwordLayout.error = getString(R.string.mustNotBeEmpty)
             return false
         }
@@ -252,13 +235,12 @@ class MainActivity : AppCompatActivity() {
         emailsLayout.error = null
         passwordsLayout.error = null
 
-
-        if (email.text!!.isEmpty()){
+        if ( !android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()) {
             emailsLayout.error = getString(R.string.mustNotBeEmpty)
             return false
         }
 
-        if (password.text!!.isEmpty()){
+        if (password.text!!.isEmpty()||passwordText.text!!.toString().length<8 ){
             passwordsLayout.error = getString(R.string.mustNotBeEmpty)
             return false
         }

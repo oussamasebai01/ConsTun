@@ -17,7 +17,23 @@
         app:layout_constraintEnd_toStartOf="@+id/select"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:text="location"/>
+        android:hint="location"/>
+
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="367dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:ems="9"
+        android:inputType="textMultiLine"
+        android:lines="3"
+        android:hint="Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.297"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/textView2"
@@ -54,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="92dp"
+        android:layout_marginEnd="64dp"
         android:text="location"
         android:textAllCaps="false"
         android:textColor="@color/textColor"
@@ -70,8 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="188dp"
+        android:layout_marginEnd="148dp"
         android:text="Creat"
         android:textAllCaps="false"
         android:textColor="@color/textColor"
@@ -79,9 +94,10 @@
         app:backgroundTint="@color/green_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.014"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintVertical_bias="0.973"
         app:shapeAppearanceOverlay="@style/Button5" />
+
 
     <Button
 
@@ -89,33 +105,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:text="Send"
+        android:text="Send SMS"
         android:textAllCaps="false"
         android:textColor="@color/textColor"
         android:textSize="17sp"
         app:backgroundTint="@color/green_700"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save"
-        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.029"
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintVertical_bias="0.947"
         app:shapeAppearanceOverlay="@style/Button5" />
-
-    <TextView
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="SUBMIT"
-        android:textSize="28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save"
-        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/img2"
@@ -123,7 +124,7 @@
         android:layout_height="194dp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_baseline_image_24"
+        android:src="@drawable/car2"
 
         app:layout_constraintEnd_toStartOf="@+id/gallery"
         app:layout_constraintHorizontal_bias="0.59"
@@ -135,9 +136,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="clicker sur select pour confirmer ton localisation"
+        android:text="clicker sur location pour confirmer ton localisation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
+        app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img2">
 
@@ -149,7 +150,7 @@
         android:layout_height="194dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_baseline_image_24"
+        android:src="@drawable/car2"
 
         app:layout_constraintEnd_toStartOf="@+id/gallery"
         app:layout_constraintHorizontal_bias="0.59"

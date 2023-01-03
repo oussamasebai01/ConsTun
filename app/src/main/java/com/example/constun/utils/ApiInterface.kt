@@ -15,20 +15,7 @@ import retrofit2.http.*
 interface ApiInterface {
 
     @POST("/user/signup")
-    fun inscrir(@Query("email") email:String, @Query("password") password:String): Call<User>
-
-    companion object {
-
-        var BASE_URL ="http://10.0.2.2:9090/"
-        fun create(): ApiInterface{
-            val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
-                .build()
-            return retrofit.create(ApiInterface::class.java)
-        }
-    }
-
+    fun inscrir(@Body user: User): Call<User>
 
     @POST("/user/signin")
     fun seConnecter(@Query("email") email:String, @Query("password") password:String): Call<User>
@@ -57,8 +44,7 @@ interface ApiInterface {
     ): Call<Profile>
 
     @GET("/canstat/SMS")
-    fun sendSMS(
-    ): Call<canstat>
+    fun sendSMS(@Query("localisation") local: String,): Call<canstat>
 
     @Multipart
     @POST("files/AddCustomer")
@@ -106,4 +92,21 @@ interface ApiInterface {
         @Part("FirstName") fname: RequestBody?,
         @Part("Id") id: RequestBody?,
     ): Call<User?>?
+
+    @PUT("user/reset")
+    fun ResetPassword(
+        @Query("token") token: String,
+        @Query("newpasswoard") newpassword: String,
+    ):Call<User>
+    companion object {
+
+        var BASE_URL ="https://constunbackend-production-d826.up.railway.app/"
+        fun create(): ApiInterface{
+            val retrofit = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .build()
+            return retrofit.create(ApiInterface::class.java)
+        }
+    }
 }

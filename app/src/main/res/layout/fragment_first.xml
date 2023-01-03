@@ -6,164 +6,169 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.FirstFragment">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="252dp"
+        android:layout_height="193dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/car1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="340dp"
+        android:layout_height="314dp"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nomALayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="@string/votre_nom"
+            app:boxStrokeColor="#4E4A4A"
+            app:boxStrokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/Button4"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nomALayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nomA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="@string/votre_nom"
-                app:boxStrokeColor="#4E4A4A"
-                app:boxStrokeWidth="1dp"
-                app:shapeAppearanceOverlay="@style/Button4"
-                tools:ignore="MissingConstraints">
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nomA"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/matriculLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="@string/votre_matricule"
+            app:boxStrokeColor="#4E4A4A"
+            app:boxStrokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/Button4"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/matriculLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/matriculeAZ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="@string/votre_matricule"
-                app:boxStrokeColor="#4E4A4A"
-                app:boxStrokeWidth="1dp"
-                app:shapeAppearanceOverlay="@style/Button4"
-                tools:ignore="MissingConstraints">
+                android:ems="10"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/matriculeAZ"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/codeALayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="@string/votre_code_assurence"
+            app:boxStrokeColor="#4E4A4A"
+            app:boxStrokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/Button4"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/codeALayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/codeA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="@string/votre_code_assurence"
-                app:boxStrokeColor="#4E4A4A"
-                app:boxStrokeWidth="1dp"
-                app:shapeAppearanceOverlay="@style/Button4"
-                tools:ignore="MissingConstraints">
+                android:ems="10"
+                android:inputType="number"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/codeA"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cinLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="@string/votre_cin"
+            app:boxStrokeColor="#4E4A4A"
+            app:boxStrokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/Button4"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cinLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cinA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="@string/votre_cin"
-                app:boxStrokeColor="#4E4A4A"
-                app:boxStrokeWidth="1dp"
-                app:shapeAppearanceOverlay="@style/Button4"
-                tools:ignore="MissingConstraints">
+                android:ems="10"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/cinA"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/numTelALayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="@string/votre_numero"
+            app:boxStrokeColor="#4E4A4A"
+            app:boxStrokeWidth="1dp"
+            app:shapeAppearanceOverlay="@style/Button4"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/numTelALayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/NumTelA"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:hint="@string/votre_numero"
-                app:boxStrokeColor="#4E4A4A"
-                app:boxStrokeWidth="1dp"
-                app:shapeAppearanceOverlay="@style/Button4"
-                tools:ignore="MissingConstraints">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/NumTelA"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:ems="10"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/next1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="NEXT"
         android:textSize="28dp"
-        android:id="@+id/next1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

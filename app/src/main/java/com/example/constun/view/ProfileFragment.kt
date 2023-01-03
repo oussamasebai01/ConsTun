@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,6 +21,8 @@ import com.example.constun.databinding.FragmentProfileBinding
 import com.example.constun.model.User
 import com.example.constun.view.*
 import com.example.constun.view.LOGIN
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
@@ -27,11 +31,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import tn.esprit.lolretrofit.utils.ApiInterface
-
-const val PREF_NAME = "LOGIN_PREF_LOL"
-const val LOGIN = "LOGIN"
-const val PASSWORD = "PASSWORD"
-const val IS_REMEMBRED = "IS_REMEMBRED"
 const val NUMERO = "22222222"
 const val MATRICUL ="1TUN1"
 const val CODE = "1"
@@ -58,6 +57,11 @@ class ProfileFragment : Fragment() {
     lateinit var updateprofile :Button
     lateinit var mSharedPref: SharedPreferences
     lateinit var btnQR : Button
+    lateinit var numLayout : TextInputLayout
+    lateinit var matLayout: TextInputLayout
+    lateinit var codeLayout: TextInputLayout
+    lateinit var cinLayout: TextInputLayout
+    lateinit var progBar: CircularProgressIndicator
 
 
 
@@ -74,17 +78,12 @@ class ProfileFragment : Fragment() {
     private fun getInfo(){
         val apiInterface = ApiInterface.create()
         val id = mSharedPref.getString(ID,"")
-//        val mat = mSharedPref.getString(MATRICUL,"")
-//        val cod = mSharedPref.getString(CODE,"")
-//        val cin = mSharedPref.getString(CIN,"")
-        println(id)
         apiInterface.getInfo(id.toString()).enqueue(object : Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 val user = response.body()
                 if (user != null) {
                     Toast.makeText(activity, "update Success", Toast.LENGTH_SHORT).show()
                     mSharedPref.edit().apply{
-                            //putBoolean(IS_REMEMBRED, true)
                             putString(NUMERO, user.numTel)
                             putString(MATRICUL, user.matricule)
                             putString(CODE, user.code_assurence)
@@ -97,52 +96,42 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
     }
 
     private  fun doConnect() {
-
-
-
             val apiInterface = ApiInterface.create()
+            updateprofile.isEnabled=false
             val id = mSharedPref.getString(ID,"")
             apiInterface.updateProfile(id.toString(), NumTelprofile.text.toString().toInt(),matriculeprofile.text.toString(), caaprofile.text.toString().toInt(), cinprofile.text.toString().toInt()).enqueue(object :
                 Callback<User> {
 
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    Toast.makeText(activity, "Connexion error!", Toast.LENGTH_SHORT).show()
-
+                    Toast.makeText(activity, "Connexion error ", Toast.LENGTH_SHORT).show()
+                    updateprofile.isEnabled=true
                 }
 
 
 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
-
-
-
                     val user = response.body()
                     if (user != null) {
                         Toast.makeText(activity, "update Success", Toast.LENGTH_SHORT).show()
-//                        mSharedPref.edit().apply{
-//                            //putBoolean(IS_REMEMBRED, true)
-//                            putString(NUMERO, NumTelprofile.text.toString())
-//                            putString(MATRICUL, matriculeprofile.text.toString())
-//                            putString(CODE, caaprofile.text.toString())
-//                            putString(CIN, cinprofile.text.toString())
-//                        }.apply()
+                        updateprofile.isEnabled=true
 
                     } else {
-                        Toast.makeText(activity, "User not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity, "update failed", Toast.LENGTH_SHORT).show()
+                        updateprofile.isEnabled=true
                     }
                 }
 
             })
 
         }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -162,27 +151,25 @@ class ProfileFragment : Fragment() {
         cinprofile = v.findViewById(R.id.cinprofile)
         updateprofile = v.findViewById(R.id.updateprofile)
         btnQR = v.findViewById(R.id.btnQR)
+        progBar = v.findViewById(R.id.progBar)
+        progBar.visibility = View.INVISIBLE
         NumTelprofile.text = mSharedPref.getString(NUMERO,"")
         matriculeprofile.text = mSharedPref.getString(MATRICUL,"")
         caaprofile.text = mSharedPref.getString(CODE,"")
         cinprofile.text = mSharedPref.getString(CIN,"")
+        numLayout = v.findViewById(R.id.numProfLayout)
+        matLayout = v.findViewById(R.id.matProfLayout)
+        codeLayout = v.findViewById(R.id.codeProfLayout)
+        cinLayout = v.findViewById(R.id.cinProfLayout)
 
         Emailprofile.setText(mSharedPref.getString(LOGIN,""))
         getInfo()
         updateprofile.setOnClickListener {
 
-            doConnect()
-
-            mSharedPref.edit().apply{
-                //putBoolean(IS_REMEMBRED, true)
-                putString(NUMERO, NumTelprofile.text.toString())
-                putString(MATRICUL, matriculeprofile.text.toString())
-                putString(CODE, caaprofile.text.toString())
-                putString(CIN, cinprofile.text.toString())
-            }.apply()
-
+            if(verif()) {
+                doConnect()
+            }
         }
-
         v.findViewById<Button>(R.id.file).setOnClickListener{
             val intent = Intent(this@ProfileFragment.requireContext(),ImagesActivity::class.java)
             startActivity(intent)
@@ -241,5 +228,34 @@ class ProfileFragment : Fragment() {
 
 
         return bitmap
+    }
+    private fun verif():Boolean{
+        numLayout.error = null
+        matLayout.error = null
+        codeLayout.error = null
+        cinLayout.error = null
+        if(NumTelprofile.text!!.isEmpty())
+        {
+            numLayout.error = "must be not empty"
+            return false
+        }
+
+        if(matriculeprofile.text!!.isEmpty())
+        {
+            matLayout.error = "must be not empty"
+            return false
+        }
+        if(caaprofile.text!!.isEmpty())
+        {
+            codeLayout.error = "must be not empty"
+            return false
+        }
+        if(cinprofile.text!!.isEmpty())
+        {
+            cinLayout.error = "must be not empty"
+            return false
+        }
+        return true
+
     }
 }

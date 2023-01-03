@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">oussama_s_application1</string>
+    <string name="app_name">ConsTun</string>
     <string name="loading">Loading…</string>
     <string name="no_internet_connection">No internet connection!</string>
     <string name="msg_you_have_an_acc">You have an Account? Login</string>
@@ -25,7 +25,7 @@
     <string name="lbl_finish">Finish</string>
     <string name="lbl_app_navigation">App Navigation</string>
     <string name="msg_you_have_an_acc2">You have an Account?</string>
-    <string name="mustNotBeEmpty">Must not be empty !</string>
+    <string name="mustNotBeEmpty">mail or password invalide !</string>
     <string name="SignIn">SignIn</string>
     <string name="SignUp">SignUp</string>
     <string name="password">password</string>

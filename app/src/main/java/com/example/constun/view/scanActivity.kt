@@ -51,9 +51,16 @@ class scanActivity : AppCompatActivity() {
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
                 Toast.makeText(this, "Scan result: ${it.text}", Toast.LENGTH_LONG).show()
-                val switchActivityIntent = Intent(this, SecandFragment::class.java)
+                val switchActivityIntent = Intent(this, HomeActivity::class.java)
                 switchActivityIntent.putExtra("data",it.text)
                 startActivityForResult(switchActivityIntent,0)
+
+                val fragmentManager = supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
+                val fragment = SecandFragment()
+                fragmentTransaction.replace(R.id.scancontainer, fragment)
+                fragmentTransaction.addToBackStack(null)
+                fragmentTransaction.commit()
 
             }
         }

@@ -1,6 +1,7 @@
 package com.example.constun.view
 
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -43,12 +44,15 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var v = inflater.inflate(R.layout.fragment_settings, container, false)
+
         mSharedPref= v.context.getSharedPreferences("LOGIN_PREF_LOL",
             AppCompatActivity.MODE_PRIVATE
         )
         exit = v.findViewById(R.id.exit)
         exit.setOnClickListener {
             v.context.getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit().clear().apply()
+            val intent = Intent(this.requireContext(),MainActivity::class.java)
+            startActivity(intent)
         }
         return v
     }

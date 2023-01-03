@@ -132,14 +132,12 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
             val file = File(cacheDir, contentResolver.getFileName(u))
             fileArray.add(file)
             val outputStream = FileOutputStream(file)
-            println("++++++++++"+file)
             inputStream.copyTo(outputStream)
             val body = UploadRequestBody(file, "image",this)
-            println("************"+body)
             bodyArray.add(body)
         }
-
         val apiInterface = ApiInterface.create()
+        btn.isEnabled=false
         val id = mSharedPref.getString(ID,"")
             apiInterface.saveFile(
                 id.toString(),
@@ -150,17 +148,17 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
             ).enqueue(object : retrofit2.Callback<Profile> {
                 override fun onFailure(call: Call<Profile>, t: Throwable) {
                     Toast.makeText(this@ImagesActivity ,"Connexion error!", Toast.LENGTH_SHORT).show()
+                    btn.isEnabled=true
                 }
-
 
                 override fun onResponse(call: Call<Profile>, response: Response<Profile>) {
                     if(response.isSuccessful){
                         Toast.makeText(this@ImagesActivity, "Registration Success", Toast.LENGTH_SHORT).show()
+                        btn.isEnabled=true
                     }
                     else
-                        Toast.makeText(this@ImagesActivity, "error", Toast.LENGTH_SHORT).show()
-
-
+                        Toast.makeText(this@ImagesActivity, "Registration failed", Toast.LENGTH_SHORT).show()
+                    btn.isEnabled=true
                 }
 
 
@@ -192,13 +190,12 @@ class ImagesActivity : AppCompatActivity() , UploadRequestBody.UploadCallback {
                 }
 
                 override fun onFailure(call: Call<Profile>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(this@ImagesActivity, "connexion error", Toast.LENGTH_SHORT).show()
                 }
 
             })
         }
     }
-
     override fun onProgressUpdate(pecentage: Int) {
 
     }

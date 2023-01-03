@@ -17,43 +17,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="10dp"
-                app:cardUseCompatPadding="true"
-                card_view:cardCornerRAdius="5dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="23dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/Emailprofile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:gravity="center"
-                        android:text="oussama.sebai@esprit.tn"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="38dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginEnd="38dp"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="10dp"
@@ -76,6 +47,7 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            android:id="@+id/numProfLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -91,7 +63,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:inputType="textEmailAddress"
+                                android:inputType="phone"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
                                 android:textStyle="normal" />
@@ -100,6 +72,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
+                            android:id="@+id/matProfLayout"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
@@ -124,6 +97,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
+                            android:id="@+id/codeProfLayout"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
@@ -147,6 +121,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                             android:layout_width="match_parent"
+                            android:id="@+id/cinProfLayout"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
@@ -161,7 +136,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:inputType="number"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
                                 android:textStyle="normal" />
@@ -218,6 +192,18 @@
                 android:textSize="17sp"
                 app:backgroundTint="@color/green_700"
                 app:shapeAppearanceOverlay="@style/Button5" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
             <ImageView
                 android:layout_gravity="center"
                 android:id="@+id/imageQR"
@@ -229,12 +215,40 @@
 
 
     </ScrollView>
-    <com.google.android.material.imageview.ShapeableImageView
-        android:src="@drawable/slider"
-        app:shapeAppearanceOverlay="@style/Circular"
-        android:elevation="15dp"
-        android:padding="5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="98dp"
-        android:layout_height="98dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true"
+        card_view:cardCornerRAdius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="23dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Emailprofile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="ConsTun"
+                android:layout_gravity="center"
+
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

@@ -68,4 +68,12 @@
     <style name="Circular">
         <item name="cornerSize">50%</item>
     </style>
+    <style name="Button4">
+        <item name="cornerSize">20%</item>
+
+    </style>
+    <style name="Button5">
+        <item name="cornerSize">50%</item>
+
+    </style>
 </resources>
